@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+@login_required
+def staff_dashboard(request):
+    if request.user.role != 'STAFF':
+        return redirect('role_redirect')
+    return render('staff_portal/staff_dashboard.html')
