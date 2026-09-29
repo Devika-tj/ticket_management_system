@@ -1,11 +1,13 @@
-# from django.shortcuts import render
-# from django.shortcuts import render,redirect
+from django.urls import path
+from . import views
 
-# def dashboard (request):
-#     if request.user.role != 'SUPPORT':
-#         return redirect ('  role_redirect')
-
-#     return render(request, 'support_staff_dashboard.html')
+urlpatterns = [
+    path(
+        'support-dashboard/',
+        views.support_dashboard,
+        name='support_dashboard'
+    ),
+]
     
 
     

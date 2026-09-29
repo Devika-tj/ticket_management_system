@@ -1,7 +1,8 @@
-# from django.urls import path
-# from .views import dashboard
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
-# urlpatterns = [
-#     path('dashboard/', dashboard, name='support_dashboard' ),
-
-# ]   
+@login_required
+def staff_dashboard(request):
+    if request.user.role != 'SUPPORT':
+        return redirect('role_redirect')
+    return render('support/support_dashboard.html')

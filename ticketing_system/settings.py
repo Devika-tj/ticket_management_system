@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'login',
     'support',
     'tickets',
+    'staff_portal'
 ]
 
 MIDDLEWARE = [
