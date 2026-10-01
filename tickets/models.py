@@ -1,4 +1,3 @@
-import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -8,13 +7,14 @@ def ticket_attachment_path(instance, filename):
     return f"tickets/ticket_{instance.id}/{filename}" if instance.id else f"tickets/unsorted/{filename}"
 
 
-class ITTicket(models.Model):
+class Ticket(models.Model):
   
     REQUEST_TYPE_CHOICES = [
         ('HARDWARE', 'Hardware Issue (Laptop, Monitor, Mouse)'),
         ('SOFTWARE', 'Software Access (MS Office, IDEs, OS updates)'),
         ('NETWORK', 'Network & Wi-Fi Connectivity'),
         ('ACCOUNT', 'Account Password Reset / Lockout'),
+        ('LOGIN','Login issue'),
         ('OTHER', 'Others (Specify below)'),
     ]
 
@@ -23,7 +23,6 @@ class ITTicket(models.Model):
         ('LOW', 'Low'),
         ('MEDIUM', 'Medium'),
         ('HIGH', 'High'),
-        ('CRITICAL', 'Critical'),
     ]
 
    
@@ -34,37 +33,13 @@ class ITTicket(models.Model):
     ]
 
    
-    title = models.CharField(max_length=200, help_text="Enter a brief summary of the issue")
+    title = models.CharField(max_length=200)
     
     request_type = models.CharField(max_length=20, choices=REQUEST_TYPE_CHOICES, default='HARDWARE', help_text="Select your request type from the dropdown")
-    
-   
-    other_request_text = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-        help_text="If you selected 'Others', please type your issue here"
-    )
-
-    priority = models.CharField(
-        max_length=10,
-        choices=PRIORITY_CHOICES,
-        default='MEDIUM'
-    )
-    
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default='OPEN'
-    )
-
-   
-    attachment = models.FileField(
-        upload_to=ticket_attachment_path,
-        blank=True,
-        null=True,
-        help_text="Attach relevant logs, screenshots, or documents"
-    )
+    other_request_text = models.CharField( max_length=255,blank=True,null=True,help_text="If you selected 'Others', please specify here")
+    priority = models.CharField(max_length=10,choices=PRIORITY_CHOICES,default='MEDIUM')
+    status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='OPEN')
+    attachment = models.FileField( upload_to=ticket_attachment_path, blank=True,null=True,help_text="Attach the file")
 
     
     raised_by = models.ForeignKey(
@@ -79,8 +54,7 @@ class ITTicket(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at'] # Shows newest tickets first in lists
-
+        ordering = ['-created_at'] 
     def __str__(self):
         return f"Ticket #{self.id}: {self.title} ({self.status})"
 
