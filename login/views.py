@@ -49,7 +49,7 @@ def support_dashboard(request):
 
     return render(
         request,
-        'accounts/support_dashboard.html'
+        'accounts/support_staff_dashboard.html'
     )
 
 

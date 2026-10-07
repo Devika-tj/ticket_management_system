@@ -59,3 +59,5 @@ class CustomUserChangeForm(UserChangeForm):
             'groups',
             'user_permissions',
         )
+
+        

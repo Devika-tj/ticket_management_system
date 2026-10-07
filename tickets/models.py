@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
+
 
 def ticket_attachment_path(instance, filename):
     """Generates a dynamic upload path for attachments based on ticket ID"""
@@ -30,28 +32,62 @@ class Ticket(models.Model):
         ('OPEN', 'Open'),
         ('PENDING', 'Pending'),
         ('RESOLVED', 'Resolved'),
+        ('CLOSED','Closed')
     ]
 
-   
-    title = models.CharField(max_length=200)
+    SECTION_CHOICES = [
+    ('ESTABLISHMENT', 'Establishment'),
+    ('PURCHASE', 'Purchase'),
+    ('FINANCE', 'Finance'),
+    ('GRADATION', 'Gradation'),
+]
+
     
+    
+
+    ticket_no=models.PositiveIntegerField(unique=True,editable=False,null=True)
+    title = models.CharField(max_length=200)
     request_type = models.CharField(max_length=20, choices=REQUEST_TYPE_CHOICES, default='HARDWARE', help_text="Select your request type from the dropdown")
     other_request_text = models.CharField( max_length=255,blank=True,null=True,help_text="If you selected 'Others', please specify here")
     priority = models.CharField(max_length=10,choices=PRIORITY_CHOICES,default='MEDIUM')
     status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='OPEN')
     attachment = models.FileField( upload_to=ticket_attachment_path, blank=True,null=True,help_text="Attach the file")
+    section=models.CharField(max_length=20,choices=SECTION_CHOICES,default='ESTABLISHMENT')
+    remarks=models.TextField(max_length=20,blank=True)
+    
+    assigned_to=models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+        )
+
+    
 
     
     raised_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='my_tickets',
         help_text="The user who created this ticket"
     )
+
+
+    class TicketComment(models.Model):
+        ticket=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='ticket_comment')
+        author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+        comment=models.TextField()
+
+    # class TicketAttachment(models.Model):
+    #     ticket=models.ForeignKey(Ticket,on_delete=models.CASCADE)
+       
     
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+  
+       
 
     class Meta:
         ordering = ['-created_at'] 

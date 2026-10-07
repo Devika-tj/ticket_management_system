@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ticket System{% endblock %}</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">My Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">New Tickets</a>
+                </li>
+            </ul>
+
+           
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      
+                        <svg xmlns="http://w3.org" width="24" height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
+                    </a>
+                    
+                    
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        
+                        
+                        {% if user.is_superuser or user.is_staff %}
+                            <li><h6 class="dropdown-header">Admin Control</h6></li>
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Django Admin</a></li>
+                            <li><a class="dropdown-item" href="#">System Configurations</a></li>
+                            <li><a class="dropdown-item" href="#">System Reports</a></li>
+                        
+                       
+                        {% elif user.groups.all.0.name == "Support" %}
+                            <li><h6 class="dropdown-header">Support Panel</h6></li>
+                            <li><a class="dropdown-item" href="#">Assigned Queues</a></li>
+                            
+                        
+                        
+                        {% else %}
+                            <li><h6 class="dropdown-header">User Menu</h6></li>
+                        {% endif %}
+
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">My Profile</a></li>
+                        
+                       
+                        <li>
+                            <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+   
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>
