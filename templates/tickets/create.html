@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Create Ticket - SupportHub
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="hero hero-green">
+
+    <div class="container">
+
+        <h1>
+            ⊕ Create New Ticket
+        </h1>
+
+        <p>
+            Describe your issue and we'll help you resolve it
+        </p>
+
+    </div>
+
+</section>
+
+
+<div class="container py-5">
+
+
+    <div class="form-card">
+
+
+        <h3>
+            ⓘ Basic Information
+        </h3>
+
+        <hr>
+
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+
+            <div class="alert alert-danger">
+
+                {{ form.non_field_errors }}
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Subject *
+                </label>
+
+                {{ form.title }}
+
+                {{ form.title.errors }}
+
+                <div class="help-text">
+                    Enter a clear, concise subject line
+                </div>
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Department *
+                    </label>
+
+                    {{ form.department }}
+
+                    {{ form.department.errors }}
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+                        Request *
+                    </label>
+
+                    {{ form.request_type }}
+
+                    {{ form.request_type.errors }}
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                id="other-box"
+                class="mb-4 mt-4"
+            >
+
+                <label class="form-label">
+                    If Other, specify the request
+                </label>
+
+                {{ form.other_request }}
+
+                {{ form.other_request.errors }}
+
+            </div>
+
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Attach Documents
+                </label>
+
+                {{ form.attachments }}
+
+                <div class="help-text">
+                    You can select multiple documents.
+                </div>
+
+            </div>
+
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Remarks
+                </label>
+
+                {{ form.remarks }}
+
+                {{ form.remarks.errors }}
+
+            </div>
+
+
+            <button
+                class="btn btn-primary btn-lg px-5"
+            >
+                Submit Ticket
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+const dep =
+    document.getElementById(
+        'id_department'
+    );
+
+
+const req =
+    document.getElementById(
+        'id_request_type'
+    );
+
+
+const other =
+    document.getElementById(
+        'other-box'
+    );
+
+
+function toggleOther() {
+
+    const opt =
+        req.options[
+            req.selectedIndex
+        ];
+
+
+    other.style.display =
+        opt &&
+        opt.text.toLowerCase() === 'other'
+            ? 'block'
+            : 'none';
+}
+
+
+async function loadRequests() {
+
+    req.innerHTML =
+        '<option value="">Select request</option>';
+
+
+    if (!dep.value) {
+
+        toggleOther();
+
+        return;
+    }
+
+
+    const r =
+        await fetch(
+            '{% url "tickets:request_types" %}?department='
+            + dep.value
+        );
+
+
+    const data =
+        await r.json();
+
+
+    data.forEach(
+        x => {
+
+            const o =
+                document.createElement(
+                    'option'
+                );
+
+
+            o.value =
+                x.id;
+
+
+            o.textContent =
+                x.name;
+
+
+            req.appendChild(o);
+
+        }
+    );
+
+
+    toggleOther();
+}
+
+
+dep.addEventListener(
+    'change',
+    loadRequests
+);
+
+
+req.addEventListener(
+    'change',
+    toggleOther
+);
+
+
+toggleOther();
+
+</script>
+
+{% endblock %}

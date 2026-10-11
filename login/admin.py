@@ -1,75 +1,47 @@
 from django.contrib import admin
+
 from django.contrib.auth.admin import UserAdmin
+
 from .models import User
 
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
 
-    model = User
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            'SupportHub',
+            {
+                'fields': (
+                    'full_name',
+                    'phone',
+                    'role',
+                    'email_verified'
+                )
+            }
+        ),
+    )
+
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            'SupportHub',
+            {
+                'fields': (
+                    'full_name',
+                    'phone',
+                    'role',
+                    'email_verified'
+                )
+            }
+        ),
+    )
+
 
     list_display = (
-        'pen_number',
-        'first_name',
-        'last_name',
+        'username',
+        'full_name',
         'role',
-        'is_active',
-    )
-
-    list_filter = (
-        'role',
-        'is_active',
-    )
-
-    search_fields = (
-        'pen_number',
-        'first_name',
-        'last_name',
-    )
-
-    ordering = ('pen_number',)
-
-    fieldsets = (
-        (None, {
-            'fields': (
-                'pen_number',
-                'password',
-            )
-        }),
-
-        ('Personal information', {
-            'fields': (
-                'first_name',
-                'last_name',
-                'email',
-            )
-        }),
-
-        ('Permissions', {
-            'fields': (
-                'role',
-                'is_active',
-                'is_staff',
-                'is_superuser',
-                'groups',
-                'user_permissions',
-            )
-        }),
-    )
-
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-
-            'fields': (
-                'pen_number',
-                'first_name',
-                'last_name',
-                'role',
-                'password1',
-                'password2',
-                'is_active',
-                'is_staff',
-            ),
-        }),
+        'email',
+        'is_active'
     )
