@@ -48,6 +48,10 @@ class User(AbstractUser):
         choices=ROLE_CHOICES,
         default='staff'
     )
+    email=models.EmailField(blank=True)
+    full_name=models.CharField(max_length=20,blank=True)
+    phone=models.CharField(max_length=20,blank=True)
+    email_verified=models.BooleanField(default=False)
 
 
     email_verified = models.BooleanField(

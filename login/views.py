@@ -27,7 +27,14 @@ class UserLoginView(LoginView):
 
         if role == 'admin':
 
+<<<<<<< HEAD
             return '/admin-panel/dashboard/'
+=======
+    return render(
+        request,
+        'accounts/support_staff_dashboard.html'
+    )
+>>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
 
 
         return '/tickets/'

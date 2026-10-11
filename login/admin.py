@@ -3,6 +3,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .models import User
+from .forms import (
+    CustomUserCreationForm,
+    CustomUserChangeForm,
+)
 
 
 @admin.register(User)
@@ -37,6 +41,10 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+
+    # Forms used by Django admin
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
 
     list_display = (
         'username',
