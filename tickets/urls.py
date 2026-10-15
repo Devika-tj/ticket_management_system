@@ -1,5 +1,4 @@
 from django.urls import path
-<<<<<<< HEAD
 
 from . import views
 
@@ -32,12 +31,11 @@ urlpatterns = [
         views.ticket_detail,
         name='detail'
     ),
-=======
+]
 from . import views
 
 urlpatterns = [
     path('tickets/', views.ticket_list, name='ticket_list'),
     path('ticket/<int:pk>/', views.ticket_detail, name='ticket_detail'),
 
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
 ]

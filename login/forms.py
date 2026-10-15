@@ -1,17 +1,10 @@
 from django import forms
-<<<<<<< HEAD
-
 from django.contrib.auth.forms import AuthenticationForm
-=======
 from django.contrib.auth.forms import (
     AuthenticationForm,
     UserCreationForm,
     UserChangeForm,
 )
-
-from .models import User
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
-
 from .models import User
 
 
@@ -29,7 +22,6 @@ class LoginForm(AuthenticationForm):
 
 
     password = forms.CharField(
-<<<<<<< HEAD
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
@@ -160,14 +152,14 @@ class CreateUserForm(forms.ModelForm):
 
 
         return user
-=======
-        label="Password",
-        strip=False,
-        widget=forms.PasswordInput(attrs={
-            'placeholder': 'Enter your password',
-            'class': 'form-control',
-        })
-    )
+    
+    label="Password",
+    strip=False,
+    widget=forms.PasswordInput(attrs={
+         'placeholder': 'Enter your password',
+         'class': 'form-control',
+           })
+    
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -201,5 +193,4 @@ class CustomUserChangeForm(UserChangeForm):
             'user_permissions',
         )
 
-        
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
+      

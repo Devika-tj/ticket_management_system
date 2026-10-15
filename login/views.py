@@ -1,8 +1,8 @@
 from django.contrib.auth.views import (
     LoginView,
-    LogoutView
+    LogoutView,
 )
-
+from django.shortcuts import render,request
 from .forms import LoginForm
 
 
@@ -26,19 +26,12 @@ class UserLoginView(LoginView):
 
 
         if role == 'admin':
-
-<<<<<<< HEAD
             return '/admin-panel/dashboard/'
-=======
-    return render(
-        request,
-        'accounts/support_staff_dashboard.html'
-    )
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
-
-
+        return render(
+             request,
+             'accounts/support_staff_dashboard.html'
+             )
         return '/tickets/'
-
 
 class UserLogoutView(LogoutView):
 
