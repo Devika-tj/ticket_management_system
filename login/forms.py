@@ -6,11 +6,12 @@ from django.contrib.auth.forms import (
     UserChangeForm,
 )
 from .models import User
+from django.shortcuts import request
 
 
 class LoginForm(AuthenticationForm):
 
-    username = forms.CharField(
+    pen_number = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -59,7 +60,7 @@ class CreateUserForm(forms.ModelForm):
         model = User
 
         fields = [
-            'username',
+            'pen_number',
             'password',
             'confirm_password',
             'full_name',
@@ -71,7 +72,7 @@ class CreateUserForm(forms.ModelForm):
 
         widgets = {
 
-            'username': forms.TextInput(
+            'pen_number': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': '6 or 7 digit number'

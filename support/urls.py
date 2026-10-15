@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -48,7 +47,7 @@ if settings.DEBUG:
     
 
     
-=======
+
 from django.urls import path
 from . import views
 
@@ -59,4 +58,4 @@ urlpatterns = [
         name='support_staff_dashboard'
     ),
 ]
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
+

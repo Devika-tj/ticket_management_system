@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 
+
 class User(AbstractUser):
 
     ROLE_CHOICES = [
@@ -12,7 +13,7 @@ class User(AbstractUser):
     ]
 
 
-    username = models.CharField(
+    pen_number = models.CharField(
         max_length=7,
 
         unique=True,

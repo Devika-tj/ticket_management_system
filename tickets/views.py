@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
@@ -238,9 +237,8 @@ def ticket_detail(
         {
             'ticket': ticket,
             'comment_form': form
-        }
-    )
-=======
+        })
+
 from django.shortcuts import render,get_object_or_404
 from .models import Ticket
 
@@ -274,4 +272,4 @@ def staff_dashboard(request):
     return render(request, 'staff_dashboard.html', {'tickets': tickets})
 
 
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
+

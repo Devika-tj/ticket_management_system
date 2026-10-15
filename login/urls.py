@@ -2,7 +2,8 @@ from django.urls import path
 
 from .views import (
     change_password,
-    profile
+    profile,
+    LogoutView
 )
 
 
@@ -18,12 +19,13 @@ urlpatterns = [
     ),
 
     path(
-<<<<<<< HEAD
+
         'change-password/',
         change_password,
         name='change_password'
     ),
-=======
+
+    path(
         'logout/',
         LogoutView.as_view(),
         name='logout'
@@ -52,5 +54,4 @@ urlpatterns = [
     #     admin_dashboard,
     #     name='admin_dashboard'
     # ),
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
 ]

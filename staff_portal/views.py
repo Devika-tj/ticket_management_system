@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.contrib import messages
 
 from django.contrib.auth import (
@@ -73,14 +72,4 @@ def change_password(request):
             'form': form
         }
     )
-=======
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 
-@login_required
-def staff_dashboard(request):
-    if request.user.role != 'STAFF':
-        return redirect('role_redirect')
-    return render('staff_dashboard.html')
-
->>>>>>> 82df279bf52b0f355fac946df2c5d9634d173ff1
