@@ -8,12 +8,16 @@ from .models import (
 )
 
 
+class MultipleFileInput(forms.FileInput):
+    allow_multiple_selected=True
+
+
 class TicketForm(forms.ModelForm):
 
     attachments = forms.FileField(
         required=False,
 
-        widget=forms.FileInput(
+        widget=MultipleFileInput(
             attrs={
                 'multiple': True,
                 'class': 'form-control'

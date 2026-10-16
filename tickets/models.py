@@ -1,10 +1,13 @@
 from django.conf import settings
 from django.db import models
 
+def ticket_attachment_path(instance, filename):
+    return f"ticket_attachments/{filename}"
+
 
 class Department(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=None)
 
     class Meta:
         ordering = ['name']
@@ -66,6 +69,11 @@ class Ticket(models.Model):
     priority = models.CharField(
         max_length=20, choices=PRIORITY_CHOICES, default='medium'
     )
+    attachment = models.FileField(
+         blank=True, 
+         null=True, 
+         upload_to='tickets/attachments' 
+    )
     assigned_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -74,6 +82,7 @@ class Ticket(models.Model):
         related_name='assigned_tickets',
         limit_choices_to={'role': 'support'},
     )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

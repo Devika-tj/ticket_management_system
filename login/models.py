@@ -21,7 +21,7 @@ class User(AbstractUser):
         validators=[
             RegexValidator(
                 r'^\d{6,7}$',
-                'Username must contain 6 or 7 digits.'
+                'pen_number must contain 6 or 7 digits.'
             )
         ],
     )
@@ -62,4 +62,4 @@ class User(AbstractUser):
 
     def __str__(self):
 
-        return self.username
+        return self.pen_number

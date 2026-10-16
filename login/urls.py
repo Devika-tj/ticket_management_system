@@ -1,8 +1,8 @@
 from django.urls import path
 
 from .views import (
-    change_password,
-    profile,
+    PasswordChangeView ,
+    # profile,
     LogoutView
 )
 
@@ -12,18 +12,14 @@ app_name = 'staff_portal'
 
 urlpatterns = [
 
-    path(
-        '',
-        profile,
-        name='profile'
-    ),
+    # path(
+    #     '',
+    #     # profile,
+    #     name='profile'
+    # ),
 
-    path(
+     path('change-password/', PasswordChangeView.as_view(), name='change_password'),
 
-        'change-password/',
-        change_password,
-        name='change_password'
-    ),
 
     path(
         'logout/',
@@ -31,27 +27,5 @@ urlpatterns = [
         name='logout'
     ),
 
-    # path(
-    #     'dashboard/',
-    #     role_redirect,
-    #     name='role_redirect'
-    # ),
-
-    # path(
-    #     'staff/dashboard/',
-    #     staff_dashboard,
-    #     name='staff_dashboard'
-    # ),
-
-    # path(
-    #     'support/dashboard/',
-    #     support_dashboard,
-    #     name='support_dashboard'
-    # ),
-
-    # path(
-    #     'admin/dashboard/',
-    #     admin_dashboard,
-    #     name='admin_dashboard'
-    # ),
+   
 ]

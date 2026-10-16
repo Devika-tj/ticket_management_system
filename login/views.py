@@ -1,8 +1,10 @@
 from django.contrib.auth.views import (
     LoginView,
     LogoutView,
+    PasswordChangeView
 )
-from django.shortcuts import render,request
+from django.shortcuts import render
+from django.urls import reverse_lazy 
 from .forms import LoginForm
 
 
@@ -27,11 +29,12 @@ class UserLoginView(LoginView):
 
         if role == 'admin':
             return '/admin-panel/dashboard/'
-        return render(
-             request,
-             'accounts/support_staff_dashboard.html'
-             )
+        
         return '/tickets/'
+    
+    class UserPasswordChangeView(PasswordChangeView): 
+        template_name = 'login/change_password.html'
+        success_url = reverse_lazy('login')
 
 class UserLogoutView(LogoutView):
 
